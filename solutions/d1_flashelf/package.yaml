@@ -1,0 +1,60 @@
+name: d1_flashelf
+version: master
+description: flashelf for D1
+type: solution
+hw_info:
+  cpu_id: cpu0
+  cpu_name: ""
+  vendor_name: ""
+  chip_name: chip_d1
+  board_name: ""
+  ld_script: gcc_flash.ld
+  flash_program: ""
+depends:
+  - chip_d1: flashelf
+  - csi: v7.5.0
+# 编译参数
+build_config:
+  include:
+    - app/include
+    - board/include
+    - libc/include
+    - mm/include
+  internal_include: 
+  cflag: "-c -g -Os -ffunction-sections -fdata-sections -Wall -fno-common -DSYSINFO_PRODUCT_MODEL=\\\"ALI_AOS_RVB_D1\\\" -fno-asynchronous-unwind-tables\n"
+  cxxflag: "-D_GLIBCXX_HAS_GTHREADS -std=gnu++11 -fno-common -fno-exceptions -ffunction-sections -fdata-sections -fomit-frame-pointer -fpermissive -g -Os -fno-asynchronous-unwind-tables\n"
+  asmflag: -c -g -ffunction-sections -fdata-sections -Wall
+  define: 
+  libs: 
+  libpath: 
+  ldflag: -Wl,--gc-sections -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -nostartfiles --specs=nosys.specs -fno-asynchronous-unwind-tables
+# 源文件
+source_file:
+  - app/src/*.c
+  - app/src/*.S
+  - board/src/*.c
+  - libc/stdio2/*.c
+  - mm/src/*.c
+  - libc/*.c
+def_config:
+  CONFIG_ARCH_INTERRUPTSTACK: 8192
+  CONFIG_CLI_USART_BAUD: 115200
+  CONFIG_DEBUG: 1
+  CONFIG_KERNEL_NONE: 1
+  CONFIG_MLIBC_PATH: stdio2
+  CONFIG_NEWLIB_STUB: 1
+  CONFIG_NON_ADDRESS_FLASH: y
+  CONFIG_SMALL_MEMORY: 1
+  CONFIG_SUNXI_SPI_CPU_XFER_ONLY: 1
+  CONFIG_SYSTICK_HZ: 100
+keywords: 
+tag: ""
+author:
+  name: ""
+license: ""
+depends_forward:
+  - chip_d1: flashelf
+  - csi: v7.5.0
+install: 
+homepage: 
+# CONFIG_MM_DETECT_ERROR: 1
